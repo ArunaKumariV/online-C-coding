@@ -1,0 +1,76 @@
+// C++ program to Construct the Array using given bitwise AND, OR and XOR
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+// Function to find the array 
+void findArray(int n, int a, 
+               int b, int c) 
+{ 
+    int arr[n + 1] = {}; 
+  
+    // Loop through all bits in number 
+    for (int bit = 30; bit >= 0; bit--) { 
+  
+        // If bit is set in AND 
+        // then set it in every element 
+        // of the array 
+        int set = a & (1 << bit); 
+        if (set) { 
+            for (int i = 0; i < n; i++) 
+                arr[i] |= set; 
+        } 
+  
+        // If bit is not set in AND 
+        else { 
+  
+            // But set in b(OR) 
+            if (b & (1 << bit)) { 
+  
+                // Set bit position 
+                // in first element 
+                arr[0] |= (1 << bit); 
+  
+                // If bit is not set in c 
+                // then set it in second 
+                // element to keep xor as 
+                // zero for bit position 
+                if (!(c & (1 << bit))) { 
+                    arr[1] |= (1 << bit); 
+                } 
+            } 
+        } 
+    } 
+  
+    int aa = INT_MAX, bb = 0, cc = 0; 
+  
+    // Calculate AND, OR 
+    // and XOR of array 
+    for (int i = 0; i < n; i++) { 
+        aa &= arr[i]; 
+        bb |= arr[i]; 
+        cc ^= arr[i]; 
+    } 
+  
+    // Check if values are equal or not 
+    if (a == aa && b == bb && c == cc) { 
+        for (int i = 0; i < n; i++) 
+            cout << arr[i] << " "; 
+    } 
+  
+    // If not, then array 
+    // is not possible 
+    else
+        cout << "-1"; 
+} 
+  
+// Driver Code 
+int main() 
+{ 
+    // Given Bitwise AND, OR, and XOR 
+    int n = 3, a = 4, b = 6, c = 6; 
+  
+    // Function Call 
+    findArray(n, a, b, c); 
+  
+    return 0; 
+} 
