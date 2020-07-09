@@ -1,0 +1,69 @@
+// C++ implementation to count the 
+// numbers upto N digits such that 
+// no two zeros are adjacent 
+  
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+int dp[15][10]; 
+  
+// Function to count the 
+// numbers upto N digits such that 
+// no two zeros are adjacent 
+int solve(int n, int last, int k) 
+{ 
+    // Condition to check if only 
+    // one element remains 
+    if (n == 1) { 
+  
+        // If last element is non 
+        // zero, return K-1 
+        if (last == k) { 
+            return (k - 1); 
+        } 
+        // If last element is 0 
+        else { 
+            return 1; 
+        } 
+    } 
+  
+    // Condition to check if value 
+    // calculated already 
+    if (dp[n][last]) 
+        return dp[n][last]; 
+  
+    // If last element is non zero, 
+    // then two cases arise, 
+    // current element can be either 
+    // zero or non zero 
+    if (last == k) { 
+  
+        // Memoize this case 
+        return dp[n][last] 
+               = (k - 1) 
+                     * solve(n - 1, k, k) 
+                 + (k - 1) 
+                       * solve(n - 1, 1, k); 
+    } 
+  
+    // If last is 0, then current 
+    // can only be non zero 
+    else { 
+  
+        // Memoize and return 
+        return dp[n][last] 
+               = solve(n - 1, k, k); 
+    } 
+} 
+  
+// Driver Code 
+int main() 
+{ 
+    // Given N and K 
+    int n = 2, k = 3; 
+  
+    // Function Call 
+    int x = solve(n, k, k) 
+            + solve(n, 1, k); 
+    cout << x; 
+} 
